@@ -4,19 +4,15 @@ dx=[1,-1,0,0]
 dy=[0,0,1,-1]
 
 row, col=map(int, input().split())
-square=[list(map(int,input().split())) for _ in range(row)]
+cheese=[list(map(int, input().split())) for _ in range(row)]
 
-hour=0
-before_1hour=0
-
-def air_out(x,y):
-    q=deque()
+def bfs():
+    q=deque([(0, 0)])
     visited=[[False]*col for _ in range(row)]
+    visited[0][0]=True
 
-    # 바깥 공기와 치즈 내부 공기와 구분하기 위해 바깥 공기는 -1 처리 / 치즈 녹기 전까지 내부 공기는 0으로 유지
-    square[x][y]=-1
-    visited[x][y]=True
-    q.append((x,y))
+    # 치즈가 녹을 위치를 저장할 큐
+    to_be_melted=deque()
 
     while q:
         curX, curY=q.popleft()
@@ -25,45 +21,36 @@ def air_out(x,y):
             nx=curX+dx[i]
             ny=curY+dy[i]
 
-            if 0<=nx<row and 0<=ny<col and not visited[nx][ny] and square[nx][ny]==0:
-                square[nx][ny]=-1
-                visited[nx][ny]=True
-                q.append((nx,ny))
+            # 맵을 벗어나지 않았고, 방문하지 않은 경우
+            if 0<=nx<row and 0<=ny<col and not visited[nx][ny]:
+                visited[nx][ny] = True
 
-def count_cheese():
-    cheese_cnt=0
-    for i in range(row):
-        for j in range(col):
-            if square[i][j]==1:
-                cheese_cnt+=1
-    return cheese_cnt
-
-def check_air_adjacent_cheese():
-    for i in range(row):
-        for j in range(col):
-            if square[i][j]==1:
-                for k in range(4):
-                    nx=i+dx[k]
-                    ny=j+dy[k]
-                    if 0<=nx<row and 0<=ny<col and square[nx][ny]==-1:
-                        square[i][j]=2
-                        break
+                # 치즈가 없는 경우 큐에 추가
+                if cheese[nx][ny]==0:
+                    q.append((nx, ny))
+                # 치즈가 있는 경우 녹을 위치에 추가. 나중에 한번에 녹임
+                elif cheese[nx][ny]==1:
+                    to_be_melted.append((nx, ny))
     
-    for i in range(row):
-        for j in range(col):
-            if square[i][j]==2:
-                square[i][j]=-1
+    # 녹을 치즈 한번에 녹임
+    for x, y in to_be_melted:
+        cheese[x][y]=0
 
-def melt_cheese():
-    # 1. 치즈 전체 순회하면서 총 치즈 개수 세기 - 만약 치즈가 1조각이라도 없으면 종료
-    # 2. 치즈 전체 순회하면서 바깥 공기와 인접한 치즈 체크
-    # 2. 치즈 녹이고 다시 반복
-    while count_cheese()>0:
-        before_1hour=count_cheese()
-        hour+=1
-        check_air_adjacent_cheese()
+    return len(to_be_melted)
 
-melt_cheese()
+# 초기 전체 치즈 개수 카운트
+cnt=sum(sum(line) for line in cheese)
+time=1
 
-print(hour)
-print(before_1hour)
+while True:
+    visited=[[False]*col for _ in range(row)]
+    melt_cnt=bfs()
+    cnt-=melt_cnt
+
+    # 치즈가 모두 녹았을 경우 종료
+    if cnt==0:
+        print(time)
+        print(melt_cnt)
+        break
+
+    time+=1
