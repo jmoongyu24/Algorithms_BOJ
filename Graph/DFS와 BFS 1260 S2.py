@@ -6,13 +6,11 @@ input=sys.stdin.readline
 n,m,v=map(int, input().split())
 graph=[[0]*(n+1) for _ in range(n+1)]
 
-
 # 노드 간 인접 행렬 생성 / 인접 행렬 대신 인접 리스트로 선언 시 모든 노드가 아닌 연결된 노드만 확인하므로 더 빨라질 수 있음
 for i in range(m):
     s,e=map(int, input().split())
     graph[s][e]=1
     graph[e][s]=1
-
 
 # DFS 함수
 def dfs(v):
@@ -22,7 +20,6 @@ def dfs(v):
             visited_dfs[i]=True
             dfs_result.append(i)
             dfs(i)
-
 
 # BFS 함수
 def bfs(v):
