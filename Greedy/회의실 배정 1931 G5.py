@@ -4,6 +4,32 @@ input = sys.stdin.readline
 N = int(input())
 
 meeting = []
+for _ in range(N):
+    s, e = map(int, input().split())
+    meeting.append((s, e))
+
+# 종료 시각으로 오름차순 정렬 후 종료 시각이 같으면 시작 시각으로 오름차순 정렬
+meeting.sort(key = lambda x: (x[1], x[0]))
+cnt = 1
+cur_end = meeting[0][1]
+
+for i in range(1, N):
+    s, e = meeting[i]
+    if s >= cur_end:
+        cnt += 1
+        cur_end = e
+
+print(cnt)
+
+
+
+"""
+import sys
+input = sys.stdin.readline
+
+N = int(input())
+
+meeting = []
 
 for _ in range(N):
     s, e = map(int, input().split())
@@ -21,3 +47,4 @@ for i in range(1, N):
         cnt += 1
 
 print(cnt)
+"""
