@@ -42,10 +42,10 @@ def bfs():
             nx = curX + dx[i]
             ny = curY + dy[i]
             
-            if 0 <= nx < n and 0 <= ny < m and box[nx][ny]==0:  # 익은 토마토 옆에 익을 수 있는 토마토가 있는 경우 / 다음 토마토가 익을 수 있는 경우에만 진행하므로 visited 이중 리스트 만들 필요 X
-                q.append((nx,ny))
+            if 0 <= nx < n and 0 <= ny < m and box[nx][ny] == 0:  # 익은 토마토 옆에 익을 수 있는 토마토가 있는 경우 / 다음 토마토가 익을 수 있는 경우(토마토를 1로 만듦으로써 visit 처리하는 것과 동일한 기능)에만 진행하므로 visited 이중 리스트 만들 필요 X
                 box[nx][ny] = 1
                 day[nx][ny] = day[curX][curY] + 1
+                q.append((nx,ny))
 
 bfs()   # BFS 수행
 
