@@ -5,157 +5,157 @@ input = sys.stdin.readline
 
 N, M = map(int, input().split())
 board = [list(map(int, input().split())) for _ in range(N)]
-# board[ny][nx]
 
 def north(board, x, y):
-    for i in range(1, y+1):
-        ny_ = y - i
-        if board[ny_][x] == 0:
-            board[ny_][x] = '#'
-        elif board[ny_][x] == 6:
+    for i in range(0, y):
+        if board[i][x] == 0:
+            board[i][x] = '#'
+        elif board[i][x] == 6:
             break
 
 def east(board, x, y):
-    for i in range(1, M-x):
-        nx_ = x + i
-        if board[y][nx_] == 0:
-            board[y][nx_] = '#'
-        elif board[y][nx_] == 6:
+    for i in range(x+1, M):
+        if board[y][i] == 0:
+            board[y][i] = '#'
+        elif board[y][i] == 6:
             break
 
 def south(board, x, y):
-    for i in range(1, N-y):
-        ny_ = y + i
-        if board[ny_][x] == 0:
-            board[ny_][x] = '#'
-        elif board[ny_][x] == 6:
+    for i in range(y+1, N):
+        if board[i][x] == 0:
+            board[i][x] = '#'
+        elif board[i][x] == 6:
             break
 
 def west(board, x, y):
-    for i in range(1, x+1):
-        nx_ = x - i
-        if board[y][nx_] == 0:
-            board[y][nx_] = '#'
-        elif board[y][nx_] == 6:
+    for i in range(0, x):
+        if board[y][i] == 0:
+            board[y][i] = '#'
+        elif board[y][i] == 6:
             break
 
 # 리턴값 dir을 CCTV가 바라보는 방향으로, 1: 북, 2: 동, 3: 남, 4: 서
 def one(board, x, y):
     cases = []
-    # 북
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    cases.append(temp)
+    # 북 방향 모두 #으로 채우고 append
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    cases.append(tmp)
     # 동
-    temp = copy.deepcopy(board)
-    east(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    east(tmp, x, y)
+    cases.append(tmp)
     # 남
-    temp = copy.deepcopy(board)
-    south(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    south(tmp, x, y)
+    cases.append(tmp)
     # 서
-    temp = copy.deepcopy(board)
-    west(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    west(tmp, x, y)
+    cases.append(tmp)
+
     return cases
 
 def two(board, x, y):
     cases = []
     # 동 & 서
-    temp = copy.deepcopy(board)
-    east(temp, x, y)
-    west(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    east(tmp, x, y)
+    west(tmp, x, y)
+    cases.append(tmp)
     # 북 & 남
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    south(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    south(tmp, x, y)
+    cases.append(tmp)
+
     return cases
 
 def three(board, x, y):
     cases = []
     # 북 & 동
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    east(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    east(tmp, x, y)
+    cases.append(tmp)
     # 동 & 남
-    temp = copy.deepcopy(board)
-    east(temp, x, y)
-    south(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    east(tmp, x, y)
+    south(tmp, x, y)
+    cases.append(tmp)
     # 남 & 서
-    temp = copy.deepcopy(board)
-    south(temp, x, y)
-    west(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    south(tmp, x, y)
+    west(tmp, x, y)
+    cases.append(tmp)
     # 서 & 북
-    temp = copy.deepcopy(board)
-    west(temp, x, y)
-    north(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    west(tmp, x, y)
+    north(tmp, x, y)
+    cases.append(tmp)
+
     return cases
 
 def four(board, x, y):
     cases = []
     # 북 & 동 & 서
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    east(temp, x, y)
-    west(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    east(tmp, x, y)
+    west(tmp, x, y)
+    cases.append(tmp)
     # 북 & 동 & 남
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    east(temp, x, y)
-    south(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    east(tmp, x, y)
+    south(tmp, x, y)
+    cases.append(tmp)
     # 동 & 남 & 서
-    temp = copy.deepcopy(board)
-    east(temp, x, y)
-    south(temp, x, y)
-    west(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    east(tmp, x, y)
+    south(tmp, x, y)
+    west(tmp, x, y)
+    cases.append(tmp)
     # 남 & 서 & 북
-    temp = copy.deepcopy(board)
-    south(temp, x, y)
-    west(temp, x, y)
-    north(temp, x, y)
-    cases.append(temp)
+    tmp = copy.deepcopy(board)
+    south(tmp, x, y)
+    west(tmp, x, y)
+    north(tmp, x, y)
+    cases.append(tmp)
+
     return cases
 
 def five(board, x, y):
-    temp = copy.deepcopy(board)
-    north(temp, x, y)
-    east(temp, x, y)
-    south(temp, x, y)
-    west(temp, x, y)
-    return [temp]
+    tmp = copy.deepcopy(board)
+    north(tmp, x, y)
+    east(tmp, x, y)
+    south(tmp, x, y)
+    west(tmp, x, y)
 
-# CCTV 위치 기록
-cctvs = []
+    return [tmp]
+
+# CCTV 위치, 종류 저장
+cctv = []
 for i in range(N):
     for j in range(M):
         if 1 <= board[i][j] <= 5:
-            cctvs.append((j, i, board[i][j]))
+            cctv.append((j, i, board[i][j]))
 
-# 백트래킹으로 모든 경우의 수 탐색
 def dfs(idx, board):
     global min_blind
     
-    if idx == len(cctvs):
-        # 사각지대 개수 세기
+    # 모든 카메라 설치 완료, 사각지대 수 계산
+    if idx == len(cctv):
         blind = 0
         for i in range(N):
             for j in range(M):
                 if board[i][j] == 0:
                     blind += 1
         min_blind = min(min_blind, blind)
+
         return
     
-    x, y, cctv_type = cctvs[idx]
+    x, y, cctv_type = cctv[idx]
     
     # CCTV 종류에 따라 가능한 모든 방향 시도
     if cctv_type == 1:
@@ -169,6 +169,7 @@ def dfs(idx, board):
     elif cctv_type == 5:
         cases = five(board, x, y)
     
+    # cases에는 각 방향별로 감시가 끝난 보드 상태들이 들어있고, 그 중 하나를 선택해서 다음 cctv로 넘어감. 모든 경우 시도함
     for case in cases:
         dfs(idx + 1, case)
 
